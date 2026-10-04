@@ -6,6 +6,8 @@
 **Theme:** No-code Apps & Dashboards  
 **Hotel:** Hotel Godavari Residency (fictional), Nashik, Maharashtra
 
+Dashboard Link: https://chintareddy-025.github.io/T11-Hotel-Revenue-Dashboard/
+
 ## Project Objective
 An AI-assisted, no-code hotel revenue dashboard using the supplied synthetic booking dataset. The project covers occupancy, ADR, RevPAR, cancellation rate, realised net revenue after channel commission, channel profitability and a testable capacity/overbooking strategy.
 
