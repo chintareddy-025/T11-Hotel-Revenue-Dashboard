@@ -27,10 +27,10 @@ An AI-assisted, no-code hotel revenue dashboard using the supplied synthetic boo
 `dashboard/T11_Hotel_Revenue_Dashboard.html`
 
 ### Data & Analysis
-`data/T11_Hotel_Revenue_Dashboard_REFINED.xlsx`
+`data/T11_Hotel_Revenue_Dashboard_WORKBOOK.xlsx`
 
 ### Report
-`report/T11_Hotel_Revenue_Strategy_Report_REFINED.pdf`
+`report/T11_Hotel_Revenue_Strategy_Report.pdf`
 
 ### AI Documentation
 `documentation/AI_Use_Log_FINAL.xlsx`
