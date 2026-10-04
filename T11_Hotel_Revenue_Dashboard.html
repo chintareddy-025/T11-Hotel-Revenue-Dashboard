@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>T11 | Hotel Revenue Dashboard</title>
+<style>
+:root {
+  --maroon:#7f1734; --maroon2:#a3294e; --ink:#202124; --muted:#687078;
+  --bg:#f3f5f7; --card:#ffffff; --line:#e2e6ea; --soft:#faf6f8;
+  --green:#2e7d5b; --amber:#b7791f; --blue:#3d6f9e;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+.top{background:linear-gradient(135deg,#67122a,#8e1e3e 65%,#a3294e);color:#fff;padding:30px 0 28px}
+.wrap{max-width:1440px;margin:auto;padding:0 28px}
+.top h1{font-size:30px;margin:0 0 7px;letter-spacing:-.4px}
+.top p{margin:0;opacity:.88;font-size:14px}
+.meta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.pill{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.10);padding:7px 11px;border-radius:20px;font-size:12px}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:-22px;position:relative}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 5px 18px rgba(28,37,44,.06)}
+.kpi{padding:18px 18px 17px}
+.kpi .label{color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.7px}
+.kpi .value{font-size:27px;font-weight:750;margin-top:9px}
+.kpi .sub{font-size:11px;color:var(--muted);margin-top:5px}
+.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px;margin-top:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.section{padding:20px}
+.section h2{font-size:17px;margin:0 0 5px}
+.section .desc{font-size:12px;color:var(--muted);margin-bottom:18px}
+.channel-row{display:grid;grid-template-columns:190px 1fr 90px;gap:12px;align-items:center;margin:15px 0}
+.channel-label span{font-size:13px;font-weight:650;display:block}
+.channel-label small{font-size:10px;color:var(--muted);display:block;margin-top:3px}
+.bar-track{height:12px;background:#edf0f2;border-radius:20px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--maroon),var(--maroon2));border-radius:20px}
+.channel-value{text-align:right;font-weight:700;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding:9px;border-bottom:1px solid var(--line)}
+td{padding:10px 9px;border-bottom:1px solid #eef0f2}
+td:last-child,th:last-child{text-align:right}
+.capacity{display:flex;gap:22px;align-items:center}
+.gauge{width:170px;height:170px;border-radius:50%;background:conic-gradient(var(--maroon) 15.833333333333332%,#e9edf0 0);display:flex;align-items:center;justify-content:center;flex:none}
+.gauge:after{content:"";width:125px;height:125px;border-radius:50%;background:#fff;position:absolute}
+.gauge-wrap{position:relative;width:170px;height:170px}
+.gauge-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:2}
+.gauge-text strong{font-size:27px} .gauge-text span{font-size:11px;color:var(--muted)}
+.capacity-list{flex:1}
+.metric{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #eef0f2;font-size:13px}
+.metric strong{font-weight:700}
+.callout{background:var(--soft);border-left:4px solid var(--maroon);padding:14px 15px;border-radius:8px;margin-top:13px;font-size:13px;line-height:1.55}
+.callout.green{border-left-color:var(--green);background:#f5faf7}
+.callout.amber{border-left-color:var(--amber);background:#fffaf1}
+.insights{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.insight{border:1px solid var(--line);border-radius:10px;padding:14px}
+.insight b{display:block;font-size:12px;margin-bottom:6px}
+.insight p{font-size:12px;line-height:1.5;color:#50575d;margin:0}
+.footer{font-size:10px;color:var(--muted);padding:20px 0 30px;line-height:1.5}
+.badge{display:inline-block;padding:4px 7px;border-radius:5px;background:#f0f2f4;font-size:10px;color:#50575d}
+@media(max-width:1050px){.kpis{grid-template-columns:repeat(2,1fr)}.grid,.grid2{grid-template-columns:1fr}.insights{grid-template-columns:1fr}}
+@media(max-width:650px){.wrap{padding:0 16px}.kpis{grid-template-columns:1fr}.channel-row{grid-template-columns:135px 1fr 78px}.capacity{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Hotel Revenue Dashboard</h1>
+    <p>Hotel Godavari Residency · T11 · AI-assisted no-code business dashboard</p>
+    <div class="meta">
+      <span class="pill">1,500 bookings</span>
+      <span class="pill">120-room hotel</span>
+      <span class="pill">03 Apr 2025 – 22 May 2026</span>
+      <span class="pill">414-day analysis stay window</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+<section class="kpis">
+  <div class="card kpi"><div class="label">Occupancy</div><div class="value">5.75%</div><div class="sub">2,858 confirmed room nights</div></div>
+  <div class="card kpi"><div class="label">ADR</div><div class="value">₹6,470</div><div class="sub">confirmed gross revenue / room night</div></div>
+  <div class="card kpi"><div class="label">RevPAR</div><div class="value">₹372</div><div class="sub">confirmed gross revenue / available room night</div></div>
+  <div class="card kpi"><div class="label">Cancellation</div><div class="value">22.0%</div><div class="sub">330 of 1,500 bookings</div></div>
+  <div class="card kpi"><div class="label">Net revenue</div><div class="value">₹1.70 Cr</div><div class="sub">after stated channel commission</div></div>
+</section>
+
+<section class="grid">
+  <div class="card section">
+    <h2>Channel profitability</h2>
+    <div class="desc">Realised net revenue per booking, with booking volume and cancellation rate shown for context.</div>
+    
+      <div class="channel-row">
+        <div class="channel-label"><span>Walk-in</span><small>80 bookings · 18.75% cancel</small></div>
+        <div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div>
+        <div class="channel-value">₹14,315</div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-label"><span>Corporate</span><small>308 bookings · 16.88% cancel</small></div>
+        <div class="bar-track"><div class="bar-fill" style="width:96.6%"></div></div>
+        <div class="channel-value">₹13,829</div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-label"><span>Direct Website</span><small>314 bookings · 17.20% cancel</small></div>
+        <div class="bar-track"><div class="bar-fill" style="width:88.6%"></div></div>
+        <div class="channel-value">₹12,689</div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-label"><span>Travel Agent</span><small>139 bookings · 13.67% cancel</small></div>
+        <div class="bar-track"><div class="bar-fill" style="width:86.3%"></div></div>
+        <div class="channel-value">₹12,360</div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-label"><span>OTA - MakeMyTrip</span><small>441 bookings · 28.34% cancel</small></div>
+        <div class="bar-track"><div class="bar-fill" style="width:64.3%"></div></div>
+        <div class="channel-value">₹9,212</div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-label"><span>OTA - Booking.com</span><small>218 bookings · 29.82% cancel</small></div>
+        <div class="bar-track"><div class="bar-fill" style="width:59.6%"></div></div>
+        <div class="channel-value">₹8,529</div>
+      </div>
+    <div class="callout"><b>Interpretation:</b> In this dataset, the OTA channels record lower realised net revenue per booking and higher cancellation rates than several other channels, while still contributing meaningful booking volume.</div>
+  </div>
+
+  <div class="card section">
+    <h2>Channel detail</h2>
+    <div class="desc">Use the table to read the underlying figures behind the visual comparison.</div>
+    <table>
+      <thead><tr><th>Channel</th><th>Bookings</th><th>Cancel</th><th>Net/booking</th></tr></thead>
+      <tbody>
+      <tr><td>Walk-in</td><td>80</td><td>18.75%</td><td>₹14,315</td></tr><tr><td>Corporate</td><td>308</td><td>16.88%</td><td>₹13,829</td></tr><tr><td>Direct Website</td><td>314</td><td>17.20%</td><td>₹12,689</td></tr><tr><td>Travel Agent</td><td>139</td><td>13.67%</td><td>₹12,360</td></tr><tr><td>OTA - MakeMyTrip</td><td>441</td><td>28.34%</td><td>₹9,212</td></tr><tr><td>OTA - Booking.com</td><td>218</td><td>29.82%</td><td>₹8,529</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="grid2">
+  <div class="card section">
+    <h2>Capacity & overbooking test</h2>
+    <div class="desc">Historical demand pressure against the 120-room capacity.</div>
+    <div class="capacity">
+      <div class="gauge-wrap">
+        <div class="gauge"></div>
+        <div class="gauge-text"><strong>15.8%</strong><span>peak confirmed load</span></div>
+      </div>
+      <div class="capacity-list">
+        <div class="metric"><span>Room capacity</span><strong>120</strong></div>
+        <div class="metric"><span>Peak gross booking load</span><strong>22 rooms</strong></div>
+        <div class="metric"><span>Peak confirmed load</span><strong>19 rooms</strong></div>
+        <div class="metric"><span>90% review trigger</span><strong>108 rooms</strong></div>
+        <div class="metric"><span>Trigger reached historically</span><strong>No</strong></div>
+      </div>
+    </div>
+    <div class="callout amber"><b>Decision rule:</b> 108 rooms is a review trigger, not an automatic overbooking quantity. The dataset does not contain no-show behaviour or oversell costs.</div>
+  </div>
+
+  <div class="card section">
+    <h2>Next-season strategy</h2>
+    <div class="desc">Actions derived from the verified channel and capacity analysis.</div>
+    <div class="callout green"><b>1 · Build higher-value demand</b><br>Increase direct and corporate demand where feasible, while tracking incremental profitability.</div>
+    <div class="callout"><b>2 · Use OTAs selectively</b><br>Retain OTA channels for incremental volume and monitor cancellation rate plus realised net revenue.</div>
+    <div class="callout amber"><b>3 · Review capacity near 90%</b><br>Only consider controlled overbooking when daily committed/confirmed demand approaches capacity and additional no-show evidence is available.</div>
+  </div>
+</section>
+
+<section class="card section" style="margin-top:16px">
+  <h2>Executive takeaways</h2>
+  <div class="desc">What a manager should notice first.</div>
+  <div class="insights">
+    <div class="insight"><b>Revenue quality</b><p>Net revenue is ₹1.70 Cr after stated channel commissions. Channel performance should be assessed using realised value, not booking count alone.</p></div>
+    <div class="insight"><b>Cancellation exposure</b><p>22% of bookings were cancelled. The cancellation rate varies by channel, so it should be monitored alongside channel volume and realised value.</p></div>
+    <div class="insight"><b>Capacity pressure</b><p>Historical peak confirmed load was only 19 of 120 rooms, so the supplied history never activated the proposed 90% capacity review trigger.</p></div>
+  </div>
+</section>
+
+<div class="footer">
+<b>Verification note:</b> Headline figures were recomputed from the supplied Bookings sheet. Cancelled bookings contribute zero realised room revenue. Occupancy, ADR and RevPAR use confirmed bookings; cancellation rate uses all bookings. The dashboard uses the actual observed stay window rather than silently assuming the stated booking period is the operating period.
+</div>
+</main>
+</body>
+</html>
